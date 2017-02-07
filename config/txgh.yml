@@ -1,18 +1,51 @@
 txgh:
   github:
     repos:
-      <%= ENV['TX_PUSH_TRANSLATIONS_TO'] %>:
-        api_username: "<%= ENV['GITHUB_USERNAME'] %>"
-        api_token: "<%= ENV['GITHUB_TOKEN'] %>"
-        push_source_to: "<%= ENV['GITHUB_PUSH_SOURCE_TO'] %>"
-        branch: "<%= ENV['GITHUB_BRANCH'] %>"
-        webhook_secret: "<%= ENV['GITHUB_WEBHOOK_SECRET'] %>"
+      # This name should be org/repo
+      puppetlabs/transifex-test:
+        api_username: "<%= ENV['github_repo_config_api_username'] %>"
+        api_token: "<%= ENV['github_repo_config_api_token'] %>"
+        push_source_to: "pe-ui"
+        #The branch to watch. Set to 'all' to listen to all pushes.
+        branch: "master"
+        #Create a repo webhook. The secret is any string of your choosing,
+        #and is input during webhook creation. TXGH uses this to validate
+        #messages are really coming from GitHub.
+        webhook_secret: "<%= ENV['github_repo_config_webhook_secret'] %>"
+      LarissaLane/pe-console-ui:
+         api_username: "<%= ENV['github_repo_config_api_username'] %>"
+         api_token: "<%= ENV['github_repo_config_api_token'] %>"
+         push_source_to: "pe-ui"
+         # The branch to watch. Set to 'all' to listen to all pushes.
+         branch: "transifex-test"
+         # Create a repo webhook. The secret is any string of your choosing,
+         # and is input during webhook creation. TXGH uses this to validate
+         # messages are really coming from GitHub.
+         webhook_secret: "<%= ENV['github_repo_config_webhook_secret'] %>"
+      LarissaLane/sinatra-i18n-example:
+         api_username: "<%= ENV['github_repo_config_api_username'] %>"
+         api_token: "<%= ENV['github_repo_config_api_token'] %>"
+         push_source_to: "sinatra-1"
+         branch: "master"
+         webhook_secret: "<%= ENV['github_repo_config_webhook_secret'] %>"
   transifex:
     projects:
-      <%= ENV['GITHUB_PUSH_SOURCE_TO'] %>:
-        tx_config: "<%= ENV['TX_CONFIG_PATH'] %>"
-        api_username: "<%= ENV['TX_USERNAME'] %>"
-        api_password: "<%= ENV['TX_PASSWORD'] %>"
-        push_translations_to: "<%= ENV['TX_PUSH_TRANSLATIONS_TO'] %>"
-        push_trigger: "<%= ENV['TX_PUSH_TRIGGER_REVIEWED_OR_TRANSLATED'] %>"
-        webhook_secret: "<%= ENV['TX_WEBHOOK_SECRET'] %>"
+      # This name should match the transifex project name, without org name
+      pe-ui:
+        tx_config: "<%= ENV['transifex_project_config_tx_config'] %>"
+        api_username: "<%= ENV['transifex_project_config_api_username'] %>"
+        api_password: "<%= ENV['transifex_project_config_api_password'] %>"
+        #This is the GitHub project name, as above.
+        push_translations_to: "puppetlabs/transifex-test"
+        #This can be 'translated' or 'reviewed'. To catch both actions,
+        #simply remove this key.
+        push_trigger: "reviewed"
+        #This works similarly to the GitHub webhook_secret above.
+        webhook_secret: "<%= ENV['transifex_project_config_webhook_secret'] %>"
+      sinatra-1:
+        tx_config: "<%= ENV['transifex_project_config_tx_config'] %>"
+        api_username: "<%= ENV['transifex_project_config_api_username'] %>"
+        api_password: "<%= ENV['transifex_project_config_api_password'] %>"
+        push_translations_to: "LarissaLane/sinatra-i18n-example"
+        push_trigger: "reviewed"
+        webhook_secret: "<%= ENV['transifex_project_config_webhook_secret'] %>"
