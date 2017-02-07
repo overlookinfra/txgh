@@ -3,18 +3,18 @@ txgh:
         repos:
             # This name should be org/repo
             LarissaLane/sinatra-i18n-example:
-                api_username: "<%= ENV['github_repo_config_api_username'] %>"
-                api_token: "<%= ENV['github_repo_config_api_token'] %>"
+                api_username: "<%= ENV['GITHUB_USERNAME'] %>"
+                api_token: "<%= ENV['GITHUB_TOKEN'] %>"
                 push_source_to: "sinatra-1"
-                branch: "master"
-                webhook_secret: "<%= ENV['github_repo_config_webhook_secret'] %>"
+                branch: "heads/master"
+                webhook_secret: "<%= ENV['GITHUB_WEBHOOK_SECRET'] %>"
     transifex:
         projects:
             # This name should match the transifex project name, without org name
             sinatra-1:
-                tx_config: "<%= ENV['transifex_project_config_tx_config'] %>"
-                api_username: "<%= ENV['transifex_project_config_api_username'] %>"
-                api_password: "<%= ENV['transifex_project_config_api_password'] %>"
+                tx_config: "<%= ENV['TX_CONFIG_PATH'] %>"
+                api_username: "<%= ENV['TX_USERNAME'] %>"
+                api_password: "<%= ENV['TX_PASSWORD'] %>"
                 push_translations_to: "LarissaLane/sinatra-i18n-example"
                 push_trigger: "reviewed"
-                webhook_secret: "<%= ENV['transifex_project_config_webhook_secret'] %>"
+                webhook_secret: "<%= ENV['TX_WEBHOOK_SECRET'] %>"
