@@ -42,7 +42,7 @@ module Txgh
 
       tree = client.create_tree(repo, tree_data, tree_options)
       commit = client.create_commit(
-        repo, "Updating translations for #{path}", tree[:sha], master[:object][:sha]
+        repo, "(L10n) Updating translations for #{path}", tree[:sha], master[:object][:sha]
       )
 
       # false means don't force push
