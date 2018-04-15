@@ -11,6 +11,7 @@ module Txgh
         request.body.rewind
         expected_signature = header_value(request.body.read, secret)
         actual_signature = request.env[RACK_HEADER]
+        Txgh::TxLogger.logger.info('*** Comparing Signatures...')
         actual_signature == expected_signature
       end
 

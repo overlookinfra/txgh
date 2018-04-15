@@ -100,10 +100,17 @@ module Txgh
         JSON.parse(request.body.read)
       end
 
+      settings.logger.info("*** Request Payload: #{payload}")
       github_repo_name = "#{payload['repository']['owner']['name']}/#{payload['repository']['name']}"
+      settings.logger.info("*** GitHub Repo Name: #{github_repo_name}")
+
       config = Txgh::KeyManager.config_from_repo(github_repo_name)
 
+      settings.logger.info("*** TX config: #{config.inspect}")
+      settings.logger.info("*** ??? Authenticated ??? ***")
+
       if authenticated_github_request?(config.github_repo, request)
+        settings.logger.info("*** !!! Authenticated !!! ***")
         handler = github_handler_for(
           project: config.transifex_project,
           repo: config.github_repo,
@@ -122,6 +129,9 @@ module Txgh
 
     def authenticated_github_request?(repo, request)
       if repo.webhook_protected?
+        settings.logger.info("*** Tx Config: length-of-webhook-secret: #{repo.webhook_secret.length}")
+        settings.logger.info("*** Request: #{request.inspect}")
+
         GithubRequestAuth.authentic_request?(
           request, repo.webhook_secret
         )
@@ -132,6 +142,7 @@ module Txgh
 
     def authenticated_transifex_request?(project, request)
       if project.webhook_protected?
+        setting.logger.info "*** Authenticating TX webhook..."
         TransifexRequestAuth.authentic_request?(
           request, project.webhook_secret
         )
