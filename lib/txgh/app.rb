@@ -143,6 +143,8 @@ module Txgh
     def authenticated_transifex_request?(project, request)
       if project.webhook_protected?
         settings.logger.info "*** Authenticating TX webhook..."
+        settings.logger.info("*** TX Project Webhook: length: #{project.webhook_secret.length}")
+        settings.logger.info("*** TX Project: #{project.inspect}")
         TransifexRequestAuth.authentic_request?(
           request, project.webhook_secret
         )
